@@ -7,19 +7,13 @@
 #ifndef MODBUS_PRIVATE_H
 #define MODBUS_PRIVATE_H
 
-// clang-format off
-#ifndef _MSC_VER
-# include <stdint.h>
-# include <sys/time.h>
-#else
-# include "stdint.h"
-# include <time.h>
-typedef int ssize_t;
-#endif
-// clang-format on
-#include <config.h>
+#include <rtthread.h>
+#include <rtdevice.h>
+#include <stdint.h>
+#include <sys/time.h>
+#include <sys/select.h>
+#include <sys/errno.h>
 #include <sys/types.h>
-
 #include "modbus.h"
 
 MODBUS_BEGIN_DECLS

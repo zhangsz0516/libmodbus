@@ -7,17 +7,7 @@
 #ifndef MODBUS_RTU_PRIVATE_H
 #define MODBUS_RTU_PRIVATE_H
 
-#ifndef _MSC_VER
-#include <stdint.h>
-#else
 #include "stdint.h"
-#endif
-
-#if defined(_WIN32)
-#include <windows.h>
-#else
-#include <termios.h>
-#endif
 
 #define _MODBUS_RTU_HEADER_LENGTH     1
 #define _MODBUS_RTU_PRESET_REQ_LENGTH 6
@@ -57,21 +47,21 @@ typedef struct _modbus_rtu {
 #if defined(_WIN32)
     struct win32_ser w_ser;
     DCB old_dcb;
-#else
-    /* Save old termios settings */
-    struct termios old_tios;
 #endif
 #if HAVE_DECL_TIOCSRS485
     int serial_mode;
 #endif
 #if HAVE_DECL_TIOCM_RTS
     int rts;
+    int rts_pin;
     int rts_delay;
     int onebyte_time;
     void (*set_rts)(modbus_t *ctx, int on);
 #endif
     /* To handle many slaves on the same link */
     int confirmation_to_ignore;
+    int connected;
+    void *data;
 } modbus_rtu_t;
 
 #endif /* MODBUS_RTU_PRIVATE_H */

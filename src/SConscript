@@ -1,0 +1,13 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src = Split('''
+modbus.c
+modbus-data.c
+''')
+
+CPPPATH = [cwd]
+
+group = DefineGroup('libmodbus', src, depend = ['PKGS_USING_LIBMODBUS_MAIN'], CPPPATH = CPPPATH)
+
+Return('group')

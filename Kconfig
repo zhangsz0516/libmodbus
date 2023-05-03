@@ -1,0 +1,41 @@
+# Kconfig file for package libmodbus
+
+menuconfig PKGS_USING_LIBMODBUS_MAIN
+    bool "libmodbus: Modbus Protocol library for RT-Thread"
+    default n
+
+if PKGS_USING_LIBMODBUS_MAIN
+
+    config PKGS_USING_LIBMODBUS_MAIN_RTU
+        bool "Enable libmodbus rtu mode"
+        default n
+
+    if PKGS_USING_LIBMODBUS_MAIN_RTU
+        config HAVE_DECL_TIOCSRS485
+            int
+            default 1
+
+        config HAVE_DECL_TIOCM_RTS
+            int
+            default 1
+
+        config PKGS_USING_LIBMODBUS_MAIN_RTU_EXAMPLE
+            bool "Enable rtu example"
+            default n
+    endif
+
+    config PKGS_USING_LIBMODBUS_MAIN_TCP
+        bool "Enable libmodbus tcp mode"
+        default n
+        select RT_USING_SAL             if RT_VER_NUM < 0x40100
+        select SAL_USING_POSIX          if RT_VER_NUM < 0x40100
+        select RT_USING_POSIX_FS        if RT_VER_NUM >= 0x40100
+        select RT_USING_POSIX_SOCKET    if RT_VER_NUM >= 0x40100
+
+    if PKGS_USING_LIBMODBUS_MAIN_TCP
+        config PKG_USING_LIBMODBUS_MAIN_TCP_EXAMPLE
+            bool "Enable tcp example"
+            default n
+    endif
+
+endif
